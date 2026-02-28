@@ -1,0 +1,5 @@
+{
+  "name": "AquaHora",
+  "description": "Seu assistente pessoal de hidratação. Acompanhe seu consumo de água e receba lembretes inteligentes.",
+  "requestFramePermissions": ["notifications"]
+}
