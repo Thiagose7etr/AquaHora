@@ -1,10 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
   const [goal, setGoal] = useState(0);
+  const [consumed, setConsumed] = useState(0);
+
+  // Carregar dados salvos
+  useEffect(() => {
+    const savedData = localStorage.getItem("aquaHoraData");
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      setName(data.name);
+      setWeight(data.weight);
+      setGoal(data.goal);
+      setConsumed(data.consumed);
+      setStep(2);
+    }
+  }, []);
+
+  // Salvar dados
+  useEffect(() => {
+    if (step === 2) {
+      localStorage.setItem(
+        "aquaHoraData",
+        JSON.stringify({ name, weight, goal, consumed })
+      );
+    }
+  }, [name, weight, goal, consumed, step]);
 
   function handleNext() {
     if (name.trim() === "" || weight === "") {
@@ -17,17 +41,53 @@ function App() {
     setStep(2);
   }
 
+  function drinkWater() {
+    setConsumed((prev) => prev + 0.25);
+  }
+
+  const progress = goal > 0 ? (consumed / goal) * 100 : 0;
+
   if (step === 2) {
     return (
       <div className="app-container">
-        <h1>Bem-vindo, {name}! 💧</h1>
-        <p>
-          Com {weight}kg, sua meta diária recomendada é:
-        </p>
-        <h2>{goal.toFixed(2)} Litros</h2>
+        <h1>Olá, {name}! 💧</h1>
+        <p>Meta diária: {goal.toFixed(2)}L</p>
 
-        <button onClick={() => setStep(1)}>
-          Voltar
+        <div style={{ margin: "20px 0" }}>
+          <div
+            style={{
+              height: "20px",
+              background: "#eee",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${progress}%`,
+                height: "100%",
+                background: "#4facfe",
+                transition: "0.3s",
+              }}
+            />
+          </div>
+          <p style={{ marginTop: "10px" }}>
+            {consumed.toFixed(2)}L consumidos
+          </p>
+        </div>
+
+        <button onClick={drinkWater}>
+          Bebi 250ml 💧
+        </button>
+
+        <button
+          style={{ marginTop: "10px", background: "#ff6b6b" }}
+          onClick={() => {
+            localStorage.removeItem("aquaHoraData");
+            window.location.reload();
+          }}
+        >
+          Resetar
         </button>
       </div>
     );
@@ -36,20 +96,18 @@ function App() {
   return (
     <div className="app-container">
       <h1>AquaHora 💧</h1>
-      <p>Vamos configurar seu perfil de hidratação.</p>
+      <p>Configure seu perfil de hidratação.</p>
 
-      <label>Como devemos te chamar?</label>
+      <label>Seu nome</label>
       <input
         type="text"
-        placeholder="Seu nome"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <label>Qual seu peso (kg)?</label>
+      <label>Seu peso (kg)</label>
       <input
         type="number"
-        placeholder="Ex: 70"
         value={weight}
         onChange={(e) => setWeight(e.target.value)}
       />
