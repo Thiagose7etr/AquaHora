@@ -1,29 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer base {
-  body {
-    @apply antialiased selection:bg-blue-100 selection:text-blue-900;
-  }
+body {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* Custom scrollbar for a cleaner look */
-::-webkit-scrollbar {
-  width: 6px;
+#root {
+  width: 100%;
+  max-width: 400px;
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
+.app-container {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 dark:bg-slate-800 rounded-full;
+h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-300 dark:bg-slate-700;
+p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+label {
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #4facfe;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #00c6ff;
 }
