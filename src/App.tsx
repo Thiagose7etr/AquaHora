@@ -3,12 +3,17 @@ import { useState } from "react";
 function App() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
+  const [weight, setWeight] = useState("");
+  const [goal, setGoal] = useState(0);
 
   function handleNext() {
-    if (name.trim() === "") {
-      alert("Digite seu nome primeiro 😉");
+    if (name.trim() === "" || weight === "") {
+      alert("Preencha seu nome e peso 😉");
       return;
     }
+
+    const calculatedGoal = (Number(weight) * 35) / 1000;
+    setGoal(calculatedGoal);
     setStep(2);
   }
 
@@ -16,7 +21,10 @@ function App() {
     return (
       <div className="app-container">
         <h1>Bem-vindo, {name}! 💧</h1>
-        <p>Sua meta diária recomendada é 2.5 litros de água.</p>
+        <p>
+          Com {weight}kg, sua meta diária recomendada é:
+        </p>
+        <h2>{goal.toFixed(2)} Litros</h2>
 
         <button onClick={() => setStep(1)}>
           Voltar
@@ -30,12 +38,6 @@ function App() {
       <h1>AquaHora 💧</h1>
       <p>Vamos configurar seu perfil de hidratação.</p>
 
-      <label>Idioma</label>
-      <select>
-        <option>Português</option>
-        <option>English</option>
-      </select>
-
       <label>Como devemos te chamar?</label>
       <input
         type="text"
@@ -44,8 +46,16 @@ function App() {
         onChange={(e) => setName(e.target.value)}
       />
 
+      <label>Qual seu peso (kg)?</label>
+      <input
+        type="number"
+        placeholder="Ex: 70"
+        value={weight}
+        onChange={(e) => setWeight(e.target.value)}
+      />
+
       <button onClick={handleNext}>
-        Próximo
+        Calcular Meta
       </button>
     </div>
   );
